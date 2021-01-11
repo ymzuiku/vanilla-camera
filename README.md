@@ -2,7 +2,7 @@
 
 零依赖的绘制和获取摄像头画面，进行 h5 端的扫码和拍摄
 
-Demo: [https://www.writeflowy.com/camera/](https://www.writeflowy.com/camera/)
+Demo: [https://camera.writeflowy.com](https://camera.writeflowy.com)
 
 ## Install
 
