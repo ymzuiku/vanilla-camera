@@ -12,6 +12,9 @@ const VanillaCamera = (target: string | HTMLElement, { onError = () => {}, direc
   } else {
     box = target as HTMLElement;
   }
+  if (!document.contains(box)) {
+    onError("document.contains no found target");
+  }
   const video = document.createElement("video");
   video.width = box.clientWidth;
   video.height = box.clientHeight;

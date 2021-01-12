@@ -59,7 +59,7 @@
   </div>
   <script src="./vanillaCamera.js"></script>
   <script>
-   const camera = vanillaCamera('#camera', {useFrontCamera: true, size: 1});
+   const camera = VanillaCamera('#camera', {useFrontCamera: true, size: 1});
    const shot = document.getElementById('shot');
    window.screenshot = ()=>{
     shot.src = camera.screenshot()
