@@ -72,14 +72,17 @@
     const shot = document.getElementById('shot');
     window.screenshot = () => {
       const imgData = camera.screenshot();
-      console.log(imgData.length);
-      shot.src = imgData
-      qr.decodeFromImage(imgData).then((code) => {
-        if (code) {
-          alert(JSON.stringify(code))
-        }
+      if (imgData) {
+        shot.src = imgData
+        qr.decodeFromImage(imgData).then((code) => {
+          if (code) {
+            alert(JSON.stringify(code))
+          }
+          requestAnimationFrame(window.screenshot)
+        });
+      } else {
         requestAnimationFrame(window.screenshot)
-      });
+      }
     }
     setTimeout(window.screenshot, 300);
   </script>
