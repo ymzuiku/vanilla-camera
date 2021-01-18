@@ -51,8 +51,8 @@
       position: fixed;
       left: 0px;
       top: 0px;
-      width: 30vw;
-      height: 30vh;
+      width: 200px;
+      height: 200px;
       z-index: 500;
     }
   </style>
@@ -64,21 +64,11 @@
   <!-- <div id="btns">
     <div class="btn" onclick="screenshot()">Screenshot</div>
   </div> -->
-  <script src="./vanillaCamera.js"></script>
-  <script src="./qrcodeDecoder.js"></script>
+  <script src="./VanillaCamera.js"></script>
+  <script src="./QrcodeDecoder.js"></script>
   <script>
-    // const decoder = new Worker('./decoder.js');
-    // function onDecoderMessage(event) {
-    //   console.log('222');
-    //   if (event.data.length > 0) {
-    //     var qrid = event.data[0][2];
-    //     alert(qrid);
-    //   }
-    //   setTimeout(window.screenshot, 100);
-    // }
-    // decoder.onmessage = onDecoderMessage;
     var qr = new QrcodeDecoder();
-    const camera = VanillaCamera('#camera', { useFrontCamera: true, size: 1.2, area: 0.3 });
+    const camera = VanillaCamera('#camera', { useFrontCamera: true, size: 1.5, area: 0.6, square: 1 });
     const shot = document.getElementById('shot');
     window.screenshot = () => {
       const imgData = camera.screenshot();
@@ -88,11 +78,10 @@
         if (code) {
           alert(JSON.stringify(code))
         }
-
         requestAnimationFrame(window.screenshot)
       });
     }
-    window.screenshot();
+    setTimeout(window.screenshot, 300);
   </script>
 </body>
 

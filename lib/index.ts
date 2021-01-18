@@ -4,12 +4,16 @@ export interface CameraOpt {
   onError?: (error: string) => void;
   size?: number;
   area?: number;
-  direction?: "horizontal" | "vertical";
+  square?: boolean;
 }
+
+const getVideoWH = (video: HTMLVideoElement) => {
+  return [video.videoWidth || video.width, video.videoHeight || video.height];
+};
 
 const VanillaCamera = (
   target: string | HTMLElement,
-  { onError = () => {}, direction, size = 1, area = 1 }: CameraOpt = {}
+  { onError = () => {}, size = 1, area = 1, square }: CameraOpt = {}
 ) => {
   let box: HTMLElement;
   if (typeof target === "string") {
@@ -18,9 +22,12 @@ const VanillaCamera = (
     box = target as HTMLElement;
   }
   if (!document.contains(box)) {
+    console.error("document.contains no found target");
     onError("document.contains no found target");
+    return;
   }
-  const video = document.createElement("video");
+
+  let video = document.createElement("video");
   video.width = box.clientWidth;
   video.height = box.clientHeight;
   video.controls = false;
@@ -31,15 +38,41 @@ const VanillaCamera = (
   startCamera(video, onError);
 
   const canvas = document.createElement("canvas");
-  if (direction === "horizontal") {
-    canvas.height = window.innerWidth * size;
-    canvas.width = window.innerHeight * size;
-  } else {
-    canvas.width = window.innerWidth * size;
-    canvas.height = window.innerHeight * size;
+  let min = window.innerWidth;
+  if (window.innerWidth > window.innerHeight) {
+    min = window.innerHeight;
   }
 
   const context = canvas.getContext("2d")!;
+
+  let x = 0;
+  let y = 0;
+  let w = 0;
+  let h = 0;
+  let cw = 0;
+  let ch = 0;
+
+  video.addEventListener("canplay", function () {
+    const [_w, _h] = getVideoWH(video);
+    cw = _w * size;
+    ch = _h * size;
+    canvas.width = cw;
+    canvas.height = ch;
+    if (square) {
+      let min = _w;
+      if (_w > _h) {
+        x = (_w - _h) / 2;
+        min = _h;
+      } else {
+        y = (_h - _w) / 2;
+      }
+      w = min;
+      h = min;
+    } else {
+      w = _w;
+      h = _h;
+    }
+  });
 
   return {
     video,
@@ -49,6 +82,7 @@ const VanillaCamera = (
       video.pause();
       video.remove();
       canvas.remove();
+      video = void 0 as any;
     },
     playPause: () => {
       if (video.paused) {
@@ -59,18 +93,16 @@ const VanillaCamera = (
     },
     // 绘制canvas画布、获取data
     screenshot: () => {
-      context.drawImage(
-        video,
-        ((1 - area) * canvas.width + 2) / 4,
-        ((1 - area) * canvas.height + 2) / 4,
-        canvas.width * area,
-        canvas.height * area,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-      return canvas.toDataURL("image/png");
+      if (video) {
+        const a = ((1 - area) * w + 2) / 2 + x;
+        const b = ((1 - area) * h + 2) / 2 + y;
+        const c = w * area;
+        const d = h * area;
+        context.drawImage(video, a, b, c, d, 0, 0, cw, ch);
+        // context.drawImage(video, 50, 50, 200, 200, 0, 0, iw, ih);
+        return canvas.toDataURL("image/png");
+      }
+      return void 0;
     },
   };
 };

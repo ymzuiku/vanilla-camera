@@ -23,8 +23,8 @@ unpkg:
 ```ts
 import VanillaCamera from 'vanilla-camera';
 
-// 根据在容器内部绘制 video 播放 camera，size 是 screenshot 的分辨率比例
-const vc = VanillaCamera('#div', {size: 1, onError:(err)=>{
+// 根据在容器内部绘制 video 播放 camera，size 是 screenshot 的分辨率比例, square: 是否仅读取正方形，这对 QRCode 场景非常有用，可以减少较多不必要的解析空间
+const vc = VanillaCamera('#div', {size: 1, area: 0.5,  square: true, onError:(err)=>{
   alert(err)
 }});
 
@@ -38,3 +38,4 @@ vc.playPause();
 vc.remove();
 
 ```
+

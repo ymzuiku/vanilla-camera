@@ -5,7 +5,8 @@ const rollup = require("rollup");
 const rollupTypescript = require("rollup-plugin-typescript2");
 const { uglify } = require("rollup-plugin-uglify");
 const { resolve } = require("path");
-const nodeResolve = require("rollup-plugin-node-resolve");
+// const nodeResolve = require("rollup-plugin-node-resolve");
+// const commonjs = require("@rollup/plugin-commonjs");
 const pwd = (...args) => resolve(process.cwd(), ...args);
 const fs = require("fs-extra");
 const argv = process.argv.splice(2);
@@ -37,6 +38,7 @@ clearDir(pwd("umd"));
 
 const watchOptions = [
   {
+    // include: ["dayjs"],
     input: "./lib/index.ts",
     output: {
       file: "./umd/index.js",
@@ -45,7 +47,11 @@ const watchOptions = [
       sourcemap: false,
     },
     plugins: [
-      nodeResolve(),
+      // nodeResolve({
+      //   // customResolveOptions: {
+      //   //   moduleDirectory: "node_modules",
+      //   // },
+      // }),
       rollupTypescript({
         useTsconfigDeclarationDir: false,
       }),
@@ -75,7 +81,7 @@ watcher.on("event", (event) => {
     // console.log(event);
     console.log("BUNDLE_END");
   } else if (event.code === "END") {
-    fs.copyFileSync("./umd/index.js", "./example/vanillaCamera.js");
+    fs.copyFileSync("./umd/index.js", "./example/VanillaCamera.js");
     if (!haveArgv("--watch", "-w")) {
       watcher.close();
     }

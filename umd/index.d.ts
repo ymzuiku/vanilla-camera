@@ -2,14 +2,14 @@ export interface CameraOpt {
     onError?: (error: string) => void;
     size?: number;
     area?: number;
-    direction?: "horizontal" | "vertical";
+    square?: boolean;
 }
-declare const VanillaCamera: (target: string | HTMLElement, { onError, direction, size, area }?: CameraOpt) => {
+declare const VanillaCamera: (target: string | HTMLElement, { onError, size, area, square }?: CameraOpt) => {
     video: HTMLVideoElement;
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     remove: () => void;
     playPause: () => void;
-    screenshot: () => string;
-};
+    screenshot: () => string | undefined;
+} | undefined;
 export default VanillaCamera;
