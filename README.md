@@ -1,6 +1,8 @@
 # vanilla-camera
 
-零依赖的绘制和获取摄像头画面，进行 h5 端的扫码和拍摄
+零依赖的绘制和获取摄像头画面，进行 h5 端的摄像头渲染.
+
+若需要内置扫码，请使用 [vanilla-qrcode](https://github.com/ymzuiku/vanilla-qrcode)
 
 Demo: [https://camera.writeflowy.com](https://camera.writeflowy.com)
 
