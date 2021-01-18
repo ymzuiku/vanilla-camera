@@ -74,6 +74,7 @@ const VanillaCamera = (
     },
   };
 };
+
 (window as any).VanillaCamera = VanillaCamera;
 
 export default VanillaCamera;
