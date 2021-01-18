@@ -45,7 +45,7 @@ const watchOptions = [
       sourcemap: false,
     },
     plugins: [
-      // nodeResolve(),
+      nodeResolve(),
       rollupTypescript({
         useTsconfigDeclarationDir: false,
       }),

@@ -1,11 +1,16 @@
 import { startCamera } from "./camera";
+
 export interface CameraOpt {
   onError?: (error: string) => void;
   size?: number;
+  area?: number;
   direction?: "horizontal" | "vertical";
 }
 
-const VanillaCamera = (target: string | HTMLElement, { onError = () => {}, direction, size = 1 }: CameraOpt = {}) => {
+const VanillaCamera = (
+  target: string | HTMLElement,
+  { onError = () => {}, direction, size = 1, area = 1 }: CameraOpt = {}
+) => {
   let box: HTMLElement;
   if (typeof target === "string") {
     box = document.querySelector(target) as any;
@@ -54,7 +59,17 @@ const VanillaCamera = (target: string | HTMLElement, { onError = () => {}, direc
     },
     // 绘制canvas画布、获取data
     screenshot: () => {
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      context.drawImage(
+        video,
+        ((1 - area) * canvas.width + 2) / 4,
+        ((1 - area) * canvas.height + 2) / 4,
+        canvas.width * area,
+        canvas.height * area,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
       return canvas.toDataURL("image/png");
     },
   };

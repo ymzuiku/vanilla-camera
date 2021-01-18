@@ -18,7 +18,7 @@ unpkg:
 <script src="https://unpkg.com/vanilla-camera@1.0.2/umd/index.js"></script>
 ```
 
-## Use
+## Use Camera
 
 ```ts
 import VanillaCamera from 'vanilla-camera';
